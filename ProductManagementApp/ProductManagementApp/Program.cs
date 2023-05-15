@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection.PortableExecutable;
+
 
 
 namespace ProductManagementApp
@@ -14,7 +14,7 @@ namespace ProductManagementApp
         {
 
             SqlConnection con = new SqlConnection("Data Source=IN-4LSQ8S3; Initial Catalog=ProductDB; Integrated Security=true");
-            con.Open();
+            
 
             while (true)
             {
@@ -62,13 +62,13 @@ namespace ProductManagementApp
                 }
 
                
-                con.Close();
+               
 
             }
 
             static void AddProduct(SqlConnection con)
             {
-                con.Open();
+                
                 Console.WriteLine("Enter product name:");
                 string productName = Console.ReadLine();
                 Console.WriteLine("Enter product description:");
@@ -85,8 +85,9 @@ namespace ProductManagementApp
                 cmd.Parameters.AddWithValue("@Quantity", quantity);
                 cmd.Parameters.AddWithValue("@Price", price);
                 cmd.ExecuteNonQuery();
+               
 
-                con.Close();
+                
                 Console.WriteLine("Product added successfully.");
             }
 
@@ -117,15 +118,15 @@ namespace ProductManagementApp
                 }
 
                 reader.Close();
+                con.Close();
             }
 
             static void GetAllProducts(SqlConnection con)
             {
                 con.Open();
-                
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Products", con);
                 SqlDataReader reader = cmd.ExecuteReader();
-
+                
                 
                 while (reader.Read())
                 {
@@ -136,12 +137,13 @@ namespace ProductManagementApp
                 }
 
                 reader.Close();
+                con.Close();
             }
 
             static void UpdateProduct(SqlConnection con)
             {
-                con.Open();
                 
+
                 Console.WriteLine("Enter product ID:");
                 int productID = Convert.ToInt32(Console.ReadLine());
 
@@ -162,16 +164,16 @@ namespace ProductManagementApp
                 cmd.Parameters.AddWithValue("@Price", price);
                 cmd.Parameters.AddWithValue("@ProductID", productID);
                 cmd.ExecuteNonQuery();
-                con.Close();
-
                 
+
+
                 Console.WriteLine("Product updated successfully.");
             }
 
             static void DeleteProduct(SqlConnection con)
             {
-                con.Open();
                 
+
                 Console.WriteLine("Enter product ID:");
                 int productID = Convert.ToInt32(Console.ReadLine());
 
@@ -179,11 +181,11 @@ namespace ProductManagementApp
                 SqlCommand cmd = new SqlCommand("DELETE FROM Products WHERE ProductID = @ProductID", con);
                 cmd.Parameters.AddWithValue("@ProductID", productID);
                 cmd.ExecuteNonQuery();
+               
 
-                
-                con.Close();
 
-                
+
+
                 Console.WriteLine("Product deleted successfully.");
             }
         }
